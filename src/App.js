@@ -61,7 +61,19 @@ export default function App() {
         <Numresults movies={movies} />
       </NavBar>
       <Main>
-        <Box>
+        {/**component composition without the children props */}
+        <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+
+        {/**using children */}
+        {/*<Box>
           <MovieList movies={movies} />
         </Box>
         <Box>
@@ -69,7 +81,7 @@ export default function App() {
             <WatchedSummary watched={watched} />
             <WatchedMovieList watched={watched} />
           </>
-        </Box>
+        </Box>*/}
       </Main>
     </>
   );
@@ -135,7 +147,7 @@ function Main({ children }) {
   );
 }
   */
-function Box({ children }) {
+function Box({ element }) {
   const [watched, setWatched] = useState(tempWatchedData);
 
   const [isOpen, setIsOpen] = useState(true);
@@ -144,7 +156,7 @@ function Box({ children }) {
       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
         {isOpen ? "–" : "+"}
       </button>
-      {isOpen && children}
+      {isOpen && element}
     </div>
   );
 }
